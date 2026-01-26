@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Parent Dashboard</title>
+  <link rel="stylesheet" href="student.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+<div class="dashboard">
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <h2>👨‍👩‍👧 Parent</h2>
+    <button onclick="loadMarks('internal')">Internal Marks</button>
+    <button onclick="loadMarks('model')">Model Exam Marks</button>
+    <button onclick="loadMarks('final')">Final Internal Marks</button>
+    <button onclick="loadAttendance()">Monthly Attendance</button>
+  </div>
+
+  <!-- Main Content -->
+  <div class="content">
+
+    <!-- Top Bar -->
+    <div class="topbar">
+      <h2 id="title">Welcome</h2>
+
+      <div class="top-actions">
+        <div class="bell" onclick="openNotifications()">
+          🔔
+          <span id="notifDot" class="dot"></span>
+        </div>
+
+        <button class="logout" onclick="logout()">🚪 Logout</button>
+      </div>
+    </div>
+
+    <div class="main-area">
+
+      <!-- Left Section -->
+      <div class="left-content">
+        <table id="marksTable" style="display:none">
+          <thead>
+            <tr>
+              <th>Subject</th>
+              <th>Marks</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+
+        <button id="chartBtn" style="display:none" onclick="showChart()">📊 View Chart</button>
+        <canvas id="marksChart" style="display:none"></canvas>
+
+        <p id="quote"></p>
+      </div>
+
+      <!-- Right Notification Bar -->
+      <div class="notification-bar" id="notificationBar" style="display:none">
+        <h3>🔔 Notifications</h3>
+        <ul id="notifications">
+          <li>📢 Internal marks released</li>
+          <li>📊 Model exam marks released</li>
+          <li>📅 Final internal marks released</li>
+          <li>👨‍👩‍👧 Attendance updated</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<script src="parent.js"></script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Academic Performance Tracking System</title>
+    <link href="style.css" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="outerbox">
+    <div class="innerbox1">
+
+        <div class="innerbox2">
+            <img src="studentimg.avif" alt="Student">
+        </div>
+
+        <div class="loginbox">
+            <img src="logo2.png" alt="Logo">
+            <h2 id="loginTitle">Login</h2>
+
+            <form id="loginForm">
+                <input type="hidden" id="role">
+
+                <input type="email" placeholder="Email" required>
+                <input type="password" placeholder="Password" required>
+
+                <div class="forgot-container">
+                    <a href="#" class="forgot">Forgot Password?</a>
+                </div>
+
+                <button type="submit">LOGIN</button>
+            </form>
+
+            <p class="signup">
+                Don’t have an account? <a href="#">Sign Up</a>
+            </p>
+        </div>
+
+    </div>
+</div>
+
+<script>
+const params = new URLSearchParams(window.location.search);
+const role = params.get("role");
+
+if (!role) {
+  alert("Select role first");
+  window.location.href = "loginas.html";
+}
+
+document.getElementById("loginTitle").innerText =
+  "Login as " + role.charAt(0).toUpperCase() + role.slice(1);
+
+document.getElementById("loginForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const email = document.querySelector('input[type="email"]').value;
+  const password = document.querySelector('input[type="password"]').value;
+
+  try {
+    const res = await fetch("http://localhost:3000/api/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, password, role })
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      alert(data.error);
+      return;
+    }
+
+    localStorage.setItem("token", data.token);
+
+    if (role === "student") window.location.href = "student.html";
+    if (role === "faculty") window.location.href = "faculty.html";
+    if (role === "parent") window.location.href = "parent.html";
+
+  } catch (err) {
+    alert("Cannot connect to server");
+  }
+});
+</script>
+
+</body>
+</html>

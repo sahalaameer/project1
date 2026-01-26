@@ -1,0 +1,99 @@
+/* Top bar layout */
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Bell + logout */
+.top-actions {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.bell {
+  font-size: 22px;
+  cursor: pointer;
+  position: relative;
+}
+
+/* Red notification dot */
+.dot {
+  width: 10px;
+  height: 10px;
+  background-color: red;
+  border-radius: 50%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: none;
+}
+
+/* Logout button */
+.logout {
+  background-color: #c0392b;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.logout:hover {
+  background-color: #a93226;
+}
+
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+.dashboard {
+  display: flex;
+  height: 100vh;
+}
+
+.sidebar {
+  width: 240px;
+  background: #004d4d;
+  color: white;
+  padding: 20px;
+}
+
+.sidebar button {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: none;
+  cursor: pointer;
+  background: #008080;
+  color: white;
+  border-radius: 5px;
+}
+
+.sidebar button:hover {
+  background: #006666;
+}
+
+.content {
+  flex: 1;
+  padding: 30px;
+}
+
+table {
+  width: 50%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th, td {
+  border: 1px solid #ccc;
+  padding: 10px;
+}
+
+#chartBtn {
+  margin-top: 15px;
+  padding: 10px 15px;
+}

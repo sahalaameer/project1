@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Faculty Dashboard</title>
+
+<style>
+/* General Reset */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    display: flex;
+    height: 100vh;
+    background: #f0f2f5;
+}
+
+/* Sidebar Styling */
+.sidebar {
+    width: 220px;
+    background: #008080;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 30px;
+    box-shadow: 3px 0 8px rgba(0,0,0,0.2);
+}
+
+.sidebar h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 22px;
+}
+
+.sidebar button {
+    width: 90%;
+    padding: 12px 15px;
+    margin-bottom: 10px;
+    border: none;
+    background: none;
+    color: white;
+    text-align: left;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 6px;
+    transition: background 0.3s;
+}
+
+.sidebar button:hover {
+    background: #006666;
+}
+
+/* Main Content Styling */
+.main {
+    flex: 1;
+    padding: 30px;
+    overflow-y: auto;
+}
+
+.main h3 {
+    margin-bottom: 20px;
+    color: #333;
+}
+
+#uploadForm {
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+}
+
+#uploadForm input[type="file"] {
+    margin-bottom: 15px;
+    padding: 10px;
+}
+
+#uploadForm button {
+    padding: 12px;
+    background: #008080;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+#uploadForm button:hover {
+    background: #006666;
+}
+</style>
+</head>
+
+<body>
+
+<div class="sidebar">
+    <h2>Faculty Dashboard</h2>
+    <button onclick="showUpload('internal')">Internal Exam Marks</button>
+    <button onclick="showUpload('model')">Model Exam Marks</button>
+    <button onclick="showUpload('final')">Final Internal Marks</button>
+    <button onclick="showUpload('attendance')">Monthly Attendance</button>
+</div>
+
+<div class="main" id="mainContent">
+    <h3>Select an option to upload Excel</h3>
+</div>
+
+<script>
+function showUpload(type) {
+    const main = document.getElementById("mainContent");
+
+    main.innerHTML = `
+        <h3>Upload ${type.charAt(0).toUpperCase() + type.slice(1)} Excel</h3>
+        <form id="uploadForm">
+            <input type="file" name="excelFile" accept=".xlsx, .xls" required>
+            <button type="submit">Upload</button>
+        </form>
+    `;
+
+    const form = document.getElementById("uploadForm");
+
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const fileInput = form.querySelector('input[type="file"]');
+        const formData = new FormData();
+
+        formData.append("excelFile", fileInput.files[0]);
+        formData.append("type", type);
+
+        try {
+            const res = await fetch("http://localhost:3000/faculty/upload", {
+  method: "POST",
+  headers: {
+    Authorization: `Bearer ${localStorage.getItem("token")}`
+  },
+  body: formData
+});
+
+
+            const data = await res.json();
+
+            if (res.ok) alert("Upload successful");
+            else alert(data.error);
+        } catch (err) {
+            console.error(err);
+            alert("Server error during upload");
+        }
+    });
+}
+</script>
+
+</body>
+</html>

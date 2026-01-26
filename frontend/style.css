@@ -1,0 +1,107 @@
+.outerbox{
+            height: 100vh;
+            background: linear-gradient(135deg, #c07e37, #f6d365, #fda085);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        
+        .innerbox1{
+            height: 600px;
+            width: 1200px;
+            background-color: white;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
+
+       
+        .innerbox2{
+            height: 500px;
+            width: 400px;
+            margin-left: 60px;
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .innerbox2 img{
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+        }
+
+        
+       
+        
+        .text{
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            color: white;
+            font-size: 18px;
+            font-style: italic;
+        }
+
+        .loginbox h2 {
+    text-align: center; /* centers the "Login" title */
+    margin-bottom: 10px;
+}
+        .loginbox{
+            width: 350px;
+            margin-left: auto;
+            margin-right: 80px;
+            display: flex;
+            flex-direction: column;
+            
+            gap: 15px;
+        }
+        .loginbox img{
+            height: 60px;
+            width: 70px;
+            border-radius: 30%;
+            margin-left: 140px;
+            margin-bottom: 10px;
+        }
+        .loginbox form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.loginbox input {
+    width: 100%; /* ensures all inputs are same width */
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.forgot-container {
+    display: flex;
+    justify-content: flex-end; /* aligns link to the right inside input width */
+}
+
+.forgot {
+    font-size: 13px;
+    color: teal;
+    text-decoration: none;
+}
+
+.loginbox button {
+    width: 100%; /* button same width as inputs */
+    padding: 12px;
+    background-color: teal;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.loginbox button:hover {
+    background-color: #006d6d;
+}
