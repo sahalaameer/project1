@@ -6,60 +6,187 @@
     <title>Login As</title>
 
     <style>
-        body {
-            font-family: Arial, sans-serif;
+      * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-           
-            background-image: url("new.jpg");  
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
+body {
+    font-family: 'Poppins', sans-serif;
+}
 
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
+/* LAYOUT */
+.container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
 
-        .box {
-            background: rgba(255, 255, 255, 0.95); 
-            padding: 40px;
-            width: 350px;
-            text-align: center;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-        }
+/* LEFT IMAGE */
+.left {
+    width: 50%;
+    position: relative;
+}
 
-        h2 {
-            margin-bottom: 30px;
-        }
+.left img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
 
-        .btn {
-            width: 100%;
-            padding: 15px;
-            margin: 12px 0;
-            font-size: 16px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            background-color: #008080;
-            color: white;
-        }
+/* SOFT OVERLAY (light, not dark) */
+.left::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.1);
+}
 
-        .btn:hover {
-            background-color: #006666;
-        }
+/* RIGHT SIDE */
+.right {
+    width: 50%;
+    height: 100vh; /* full height */
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: linear-gradient(135deg, #f8fafc, #eef2f7);
+}
+
+/* BOX */
+.box {
+    height: 100%;          /* 🔥 same height as image */
+    width: 100%;
+    max-width: 420px;      /* keep readable */
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    padding: 60px;
+    border-radius: 0;      /* remove card feel */
+
+    background: transparent;  /* remove box look */
+    box-shadow: none;
+}
+
+.box:hover {
+    transform: translateY(-5px);
+}
+
+/* TITLE */
+h2 {
+    margin-bottom: 10px;
+    color: #222;
+    font-size: 26px;
+    font-weight: 600;
+    text-align: center;
+}
+
+/* SUBTEXT */
+.subtext {
+    color: #777;
+    margin-bottom: 25px;
+    font-size: 14px;
+}
+
+/* BUTTON */
+.btn {
+    width: 100%;
+    padding: 14px;
+    margin: 10px 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+
+    font-size: 15px;
+    font-weight: 500;
+
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+
+    background: linear-gradient(to right, #0f766e, #14b8a6);
+    color: white;
+
+    box-shadow: 0 4px 12px rgba(20,184,166,0.3);
+    transition: 0.3s;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(20,184,166,0.4);
+}
+
+.btn:active {
+    transform: scale(0.96);
+}
+.right{
+    width: 50%;
+    height: 100vh;
+    position: relative;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: linear-gradient(135deg, #f8fafc, #eef2f7);
+}
+
+.footer{
+  position:absolute;
+  bottom:20px;
+  left:0;
+  width:100%;
+  text-align:center;
+  padding:10px;
+  font-size:14px;
+  background:transparent;
+}
+
+.footer a{
+  margin:0 12px;
+  color:#0f766e;
+  text-decoration:none;
+  font-weight:500;
+}
+
+.footer a:hover{
+  text-decoration:underline;
+}
     </style>
 </head>
 <body>
+<div class="container">
 
-<div class="box">
-    <h2>Login As</h2>
+    <!-- LEFT IMAGE -->
+    <div class="left">
+        <img src="new.jpg" alt="Background">
+    </div>
 
-    <button class="btn" onclick="goToLogin('student')">🎓 Student</button>
-    <button class="btn" onclick="goToLogin('faculty')">👩‍🏫 Faculty</button>
-    <button class="btn" onclick="goToLogin('parent')">👨‍👩‍👧 Parent</button>
+    <!-- RIGHT -->
+    <div class="right">
+        <div class="box">
+            <h2>Login As</h2>
+
+            <button type="button" class="btn" onclick="goToLogin('student')">🎓 Student</button>
+            <button type="button" class="btn" onclick="goToLogin('faculty')">👩‍🏫 Faculty</button>
+            <button type="button" class="btn" onclick="goToLogin('parent')">👨‍👩‍👧 Parent</button>
+        </div>
+        <div class="footer">
+  <a href="#">Privacy Policy</a>
+  <a href="#">Help</a>
+  <a href="https://www.scmsgroup.org" target="_blank">SCMS Website</a>
 </div>
+    </div>
+
+</div>
+
 
 <script>
     function goToLogin(role) {

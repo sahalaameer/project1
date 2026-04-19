@@ -19,7 +19,20 @@ app.use("/api/auth", authRoutes);
 const parentRoutes = require("./routes/parent");
 app.use("/api/parent", parentRoutes);
 
+const marksRoutes = require("./routes/marks");
+app.use("/api/marks", marksRoutes);
 
+const facultyRoutes = require("./routes/faculty");
+app.use("/api/faculty", facultyRoutes);
+const advancedReport = require("./routes/advancedReport");
+app.use("/api/report", advancedReport);
+
+const reportRoutes = require("./routes/report");
+
+app.use("/api/notifications", require("./routes/notifications"));
+app.use("/api", reportRoutes);
+const attendanceRoutes = require("./routes/attendance");
+app.use("/api/attendance", attendanceRoutes);
 // Server Start
 const PORT = process.env.PORT || 3000;
 

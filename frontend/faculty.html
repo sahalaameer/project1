@@ -6,153 +6,400 @@
 <title>Faculty Dashboard</title>
 
 <style>
-/* General Reset */
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
 
-body {
-    display: flex;
-    height: 100vh;
-    background: #f0f2f5;
-}
+*{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',Tahoma,Verdana,sans-serif}
+body{display:flex;height:100vh;background:linear-gradient(135deg,#eef2ff,#f8fafc)}
+.sidebar{width:250px;background:linear-gradient(180deg,#0f766e,#115e59);color:#fff;display:flex;flex-direction:column;align-items:center;padding:28px 16px;box-shadow:4px 0 20px rgba(0,0,0,.15)}
+.sidebar h2{margin-bottom:30px;font-size:28px;font-weight:800;text-align:center}
+.sidebar button{width:100%;padding:14px 16px;margin-bottom:10px;border:none;background:transparent;color:#fff;text-align:left;cursor:pointer;font-size:16px;border-radius:12px;transition:.2s}
+.sidebar button:hover{background:rgba(255,255,255,.15);transform:translateX(4px)}
+.main{flex:1;padding:30px;overflow:auto}
+.panel{background:#fff;max-width:760px;padding:28px;border-radius:24px;box-shadow:0 10px 30px rgba(0,0,0,.08);border:1px solid #e5e7eb}
+h3{font-size:28px;color:#0f172a;margin-bottom:18px}
+label{display:block;margin:12px 0 6px;font-weight:700;color:#334155}
+select,input{padding:12px;width:100%;border:1px solid #cbd5e1;border-radius:12px;background:#fff;margin-bottom:8px;outline:none}
+select:focus,input:focus{border-color:#0f766e;box-shadow:0 0 0 3px rgba(15,118,110,.12)}
+#uploadForm,#attendanceForm,#reportForm{max-width:460px;display:flex;flex-direction:column}
+button[type='submit'],#reportBtn,#genReportBtn,#pptBtn{padding:12px;background:#0f766e;color:#fff;border:none;cursor:pointer;border-radius:12px;font-weight:700;margin-top:10px;transition:.2s}
+button[type='submit']:hover,#reportBtn:hover,#genReportBtn:hover,#pptBtn:hover{background:#115e59}
+#logoutBtn{position:absolute;top:20px;right:30px;padding:10px 18px;background:#ef4444;color:#fff;border:none;border-radius:12px;cursor:pointer;font-weight:700;box-shadow:0 8px 18px rgba(239,68,68,.25)}
+#logoutBtn:hover{background:#dc2626}
 
-/* Sidebar Styling */
-.sidebar {
-    width: 220px;
-    background: #008080;
-    color: white;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-top: 30px;
-    box-shadow: 3px 0 8px rgba(0,0,0,0.2);
-}
-
-.sidebar h2 {
-    text-align: center;
-    margin-bottom: 30px;
-    font-size: 22px;
-}
-
-.sidebar button {
-    width: 90%;
-    padding: 12px 15px;
-    margin-bottom: 10px;
-    border: none;
-    background: none;
-    color: white;
-    text-align: left;
-    cursor: pointer;
-    font-size: 16px;
-    border-radius: 6px;
-    transition: background 0.3s;
-}
-
-.sidebar button:hover {
-    background: #006666;
-}
-
-/* Main Content Styling */
-.main {
-    flex: 1;
-    padding: 30px;
-    overflow-y: auto;
-}
-
-.main h3 {
-    margin-bottom: 20px;
-    color: #333;
-}
-
-#uploadForm {
-    display: flex;
-    flex-direction: column;
-    max-width: 400px;
-}
-
-#uploadForm input[type="file"] {
-    margin-bottom: 15px;
-    padding: 10px;
-}
-
-#uploadForm button {
-    padding: 12px;
-    background: #008080;
-    color: white;
-    font-size: 16px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background 0.3s;
-}
-
-#uploadForm button:hover {
-    background: #006666;
-}
+@media(max-width:900px){body{flex-direction:column}.sidebar{width:100%;height:auto}.main{padding:18px}#logoutBtn{position:static;margin:10px}}
 </style>
 </head>
-
 <body>
-
 <div class="sidebar">
-    <h2>Faculty Dashboard</h2>
-    <button onclick="showUpload('internal')">Internal Exam Marks</button>
-    <button onclick="showUpload('model')">Model Exam Marks</button>
-    <button onclick="showUpload('final')">Final Internal Marks</button>
-    <button onclick="showUpload('attendance')">Monthly Attendance</button>
+<h2>Faculty Dashboard</h2>
+<button onclick="showUploadMarks()">📘 Upload Marks</button>
+<button onclick="showAttendance()">📅 Monthly Attendance</button>
+<button onclick="showAdvancedReport()">📊 Result Analysis</button>
 </div>
-
-<div class="main" id="mainContent">
-    <h3>Select an option to upload Excel</h3>
-</div>
-
+<div class="main"><div id="mainContent" class="panel"><h3>Select an option</h3></div></div>
+<button id="logoutBtn">Logout</button>
 <script>
-function showUpload(type) {
-    const main = document.getElementById("mainContent");
 
-    main.innerHTML = `
-        <h3>Upload ${type.charAt(0).toUpperCase() + type.slice(1)} Excel</h3>
-        <form id="uploadForm">
-            <input type="file" name="excelFile" accept=".xlsx, .xls" required>
-            <button type="submit">Upload</button>
-        </form>
-    `;
+function showUploadMarks(){
 
-    const form = document.getElementById("uploadForm");
+const main=document.getElementById("mainContent");
 
-    form.addEventListener("submit", async (e) => {
-        e.preventDefault();
+main.innerHTML=`
 
-        const fileInput = form.querySelector('input[type="file"]');
-        const formData = new FormData();
+<h3>Upload Student Marks</h3>
 
-        formData.append("excelFile", fileInput.files[0]);
-        formData.append("type", type);
+<form id="uploadForm">
 
-        try {
-            const res = await fetch("http://localhost:3000/faculty/upload", {
-  method: "POST",
-  headers: {
-    Authorization: `Bearer ${localStorage.getItem("token")}`
-  },
-  body: formData
+<label>Course</label>
+<select id="course" required>
+<option disabled selected>Select Course</option>
+<option value="IMCA">IMCA</option>
+<option value="BCA">BCA</option>
+<option value="MCA">MCA</option>
+</select>
+
+<label>Batch</label>
+<select id="batch" required>
+<option disabled selected>Select Batch</option>
+<option value="2022">2022</option>
+<option value="2023">2023</option>
+<option value="2024">2024</option>
+<option value="2025">2025</option>
+</select>
+
+<label>Semester</label>
+<select id="semester" required>
+<option disabled selected>Select Semester</option>
+<option value="1">Sem 1</option>
+<option value="2">Sem 2</option>
+<option value="3">Sem 3</option>
+<option value="4">Sem 4</option>
+<option value="5">Sem 5</option>
+<option value="6">Sem 6</option>
+</select>
+
+<label>Exam Type</label>
+<select id="type" required>
+<option disabled selected>Select Exam Type</option>
+<option value="internal">Internal</option>
+<option value="model">Model</option>
+<option value="final">Final</option>
+</select>
+
+<input type="file" id="file" accept=".xlsx,.xls" required>
+
+<button type="submit">Upload Marks</button>
+
+</form>
+<button id="reportBtn" style="display:none;margin-top:15px;">
+Generate Report (PDF)
+</button>
+
+<button id="genReportBtn" style="display:none;width:260px;margin-top:15px;">
+Generate Full Report (PDF)
+</button>
+
+<button id="pptBtn" style="display:none;width:260px;margin-top:15px;">
+Generate PPT Report
+</button>
+
+`;
+
+const form=document.getElementById("uploadForm");
+const reportBtn=document.getElementById("reportBtn");
+
+let course,batch,semester,type;
+
+form.addEventListener("submit",async(e)=>{
+
+e.preventDefault();
+
+course=document.getElementById("course").value;
+batch=document.getElementById("batch").value;
+semester=document.getElementById("semester").value;
+type=document.getElementById("type").value;
+
+const file=document.getElementById("file").files[0];
+
+const formData=new FormData();
+
+formData.append("file",file);
+formData.append("type",type);
+formData.append("course",course);
+formData.append("batch",batch);
+formData.append("semester",semester);
+
+const res=await fetch(
+"http://localhost:3000/api/faculty/upload-marks",
+{
+method:"POST",
+headers:{
+Authorization:`Bearer ${localStorage.getItem("token")}`
+},
+body:formData
+}
+);
+
+const data=await res.json();
+
+if(res.ok){
+alert("Upload successful");
+reportBtn.style.display="block";
+}else{
+alert(data.msg || "Upload failed");
+}
+
 });
 
+reportBtn.addEventListener("click",async()=>{
 
-            const data = await res.json();
-
-            if (res.ok) alert("Upload successful");
-            else alert(data.error);
-        } catch (err) {
-            console.error(err);
-            alert("Server error during upload");
-        }
-    });
+const res=await fetch(
+`http://localhost:3000/api/faculty/generate-report/${type}/${course}/${batch}/${semester}`,
+{
+headers:{
+Authorization:`Bearer ${localStorage.getItem("token")}`
 }
+}
+);
+
+const blob=await res.blob();
+
+const url=window.URL.createObjectURL(blob);
+
+const a=document.createElement("a");
+
+a.href=url;
+a.download="analysis_report.pdf";
+
+a.click();
+
+});
+
+}
+
+function showAttendance(){
+
+const main = document.getElementById("mainContent");
+
+main.innerHTML = `
+<h3>Upload Monthly Attendance</h3>
+
+<form id="attendanceForm">
+<label>Course</label>
+<select id="course" required>
+<option disabled selected>Select Course</option>
+<option value="IMCA">IMCA</option>
+<option value="BCA">BCA</option>
+<option value="MCA">MCA</option>
+</select>
+
+<label>Batch</label>
+<select id="batch" required>
+<option disabled selected>Select Batch</option>
+<option value="2022">2022</option>
+<option value="2023">2023</option>
+<option value="2024">2024</option>
+<option value="2025">2025</option>
+</select>
+
+<label>Semester</label>
+<select id="semester" required>
+<option disabled selected>Select Semester</option>
+<option value="1">Sem 1</option>
+<option value="2">Sem 2</option>
+<option value="3">Sem 3</option>
+<option value="4">Sem 4</option>
+<option value="5">Sem 5</option>
+<option value="6">Sem 6</option>
+</select>
+
+<input type="file" id="file" accept=".xlsx,.xls" required>
+
+<button type="submit">Upload Attendance</button>
+</form>
+`;
+
+const form = document.getElementById("attendanceForm");
+
+form.addEventListener("submit", async (e) => {
+e.preventDefault();
+
+const formData = new FormData();
+
+formData.append("file", document.getElementById("file").files[0]);
+formData.append("course", document.getElementById("course").value);
+formData.append("batch", document.getElementById("batch").value);
+formData.append("semester", document.getElementById("semester").value);
+
+const res = await fetch("http://localhost:3000/api/faculty/upload-attendance",{
+method:"POST",
+headers:{
+Authorization:`Bearer ${localStorage.getItem("token")}`
+},
+body:formData
+});
+
+const data = await res.json();
+
+if(res.ok){
+alert("Attendance uploaded successfully");
+form.reset();
+}else{
+alert(data.msg || "Upload failed");
+}
+});
+
+}
+
+
+function showAdvancedReport(){
+
+const main=document.getElementById("mainContent");
+
+main.innerHTML=`
+
+<h3>Generate Full Academic Report</h3>
+
+<form id="reportForm">
+
+<label>Course</label>
+<select id="course" required>
+<option disabled selected>Select Course</option>
+<option value="IMCA">IMCA</option>
+<option value="BCA">BCA</option>
+<option value="MCA">MCA</option>
+</select>
+
+<label>Batch</label>
+<select id="batch" required>
+<option disabled selected>Select Batch</option>
+<option value="2022">2022</option>
+<option value="2023">2023</option>
+<option value="2024">2024</option>
+<option value="2025">2025</option>
+</select>
+
+<label>Semester</label>
+<select id="semester" required>
+<option disabled selected>Select Semester</option>
+<option value="1">Sem 1</option>
+<option value="2">Sem 2</option>
+<option value="3">Sem 3</option>
+<option value="4">Sem 4</option>
+<option value="5">Sem 5</option>
+<option value="6">Sem 6</option>
+</select>
+
+<label>Upload Excel (Full Result Sheet)</label>
+<input type="file" id="excelFile" accept=".xlsx,.xls" required>
+
+<button type="submit">Upload Data</button>
+
+</form>
+
+<button id="genReportBtn" style="display:none;margin-top:15px;">
+Generate Full Report (PDF)
+</button>
+
+<button id="pptBtn" style="display:none;margin-top:10px;">
+Generate PPT Report
+</button>
+
+`;
+
+const form=document.getElementById("reportForm");
+const genBtn=document.getElementById("genReportBtn");
+const pptBtn=document.getElementById("pptBtn");
+let course,batch,semester;
+
+form.addEventListener("submit",async(e)=>{
+
+e.preventDefault();
+
+course=document.getElementById("course").value;
+batch=document.getElementById("batch").value;
+semester=document.getElementById("semester").value;
+
+const file=document.getElementById("excelFile").files[0];
+
+const formData=new FormData();
+
+formData.append("file",file);
+formData.append("course",course);
+formData.append("batch",batch);
+formData.append("semester",semester);
+
+const res=await fetch(
+"http://localhost:3000/api/report/upload-excel",
+{
+method:"POST",
+headers:{
+Authorization:`Bearer ${localStorage.getItem("token")}`
+},
+body:formData
+}
+);
+
+const data=await res.json();
+
+if(res.ok){
+alert("Excel uploaded successfully");
+
+genBtn.style.display="block";
+pptBtn.style.display="block";
+}else{
+alert(data.msg || "Upload failed");
+}
+
+});
+
+genBtn.addEventListener("click",async()=>{
+
+const res=await fetch(
+`http://localhost:3000/api/report/generate-full/${course}/${batch}/${semester}`,
+{
+headers:{
+Authorization:`Bearer ${localStorage.getItem("token")}`
+}
+}
+);
+
+const blob=await res.blob();
+
+const url=window.URL.createObjectURL(blob);
+
+const a=document.createElement("a");
+
+a.href=url;
+a.download="full_analysis_report.pdf";
+
+a.click();
+
+});
+pptBtn.addEventListener("click",async()=>{
+
+const res=await fetch(
+`http://localhost:3000/api/report/generate-ppt/${course}/${batch}/${semester}`,
+{
+headers:{
+Authorization:`Bearer ${localStorage.getItem("token")}`
+}
+}
+);
+
+const blob=await res.blob();
+const url=window.URL.createObjectURL(blob);
+
+const a=document.createElement("a");
+a.href=url;
+a.download="academic_report.pptx";
+a.click();
+
+});
+}
+document.getElementById("logoutBtn").addEventListener("click", () => {
+  localStorage.clear();
+  window.location.href = "index.html";
+});
 </script>
 
 </body>

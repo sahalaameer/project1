@@ -1,107 +1,296 @@
-.outerbox{
-            height: 100vh;
-            background: linear-gradient(135deg, #c07e37, #f6d365, #fda085);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        
-        .innerbox1{
-            height: 600px;
-            width: 1200px;
-            background-color: white;
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
-        }
-
-       
-        .innerbox2{
-            height: 500px;
-            width: 400px;
-            margin-left: 60px;
-            position: relative;
-            border-radius: 20px;
-            overflow: hidden;
-        }
-
-        .innerbox2 img{
-            height: 100%;
-            width: 100%;
-            object-fit: cover;
-        }
-
-        
-       
-        
-        .text{
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
-            color: white;
-            font-size: 18px;
-            font-style: italic;
-        }
-
-        .loginbox h2 {
-    text-align: center; /* centers the "Login" title */
-    margin-bottom: 10px;
-}
-        .loginbox{
-            width: 350px;
-            margin-left: auto;
-            margin-right: 80px;
-            display: flex;
-            flex-direction: column;
-            
-            gap: 15px;
-        }
-        .loginbox img{
-            height: 60px;
-            width: 70px;
-            border-radius: 30%;
-            margin-left: 140px;
-            margin-bottom: 10px;
-        }
-        .loginbox form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.loginbox input {
-    width: 100%; /* ensures all inputs are same width */
-    padding: 12px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    font-size: 14px;
+/* RESET */
+* {
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
 }
 
+body {
+    font-family: 'Poppins', sans-serif;
+}
+
+/* BACKGROUND (SOFT & CLEAN) */
+.outerbox {
+    height: 100vh;
+     background: linear-gradient(135deg, #f6d365, #fda085);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+/* MAIN CARD */
+.innerbox1 {
+    height: 620px;
+    width: 1100px;
+    display: flex;
+    border-radius: 16px;
+    overflow: hidden;
+
+    background: #ffffff; /* remove glass */
+    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+}
+
+/* IMAGE SIDE */
+.innerbox2 {
+    width: 50%;
+    position: relative;
+}
+
+.innerbox2 img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* REMOVE DARK OVERLAY */
+.innerbox2::after {
+    display: none;
+}
+
+/* LOGIN SIDE */
+.loginbox {
+    width: 50%;
+    padding: 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* LOGO */
+.loginbox img {
+    height: 60px;
+    width: 60px;
+    margin: 0 auto 15px auto;
+    border-radius: 50%;
+}
+
+/* TITLE */
+.loginbox h2 {
+    text-align: center;
+    font-size: 26px;
+    margin-bottom: 20px;
+    color: #222; /* dark text */
+}
+
+/* FORM */
+.loginbox form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* INPUTS (CLEAR & VISIBLE) */
+.loginbox input {
+    padding: 14px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+
+    background: #f9fafb;
+    color: #333;
+    font-size: 14px;
+
+    transition: 0.3s;
+}
+
+.loginbox input::placeholder {
+    color: #888;
+}
+
+.loginbox input:focus {
+    border-color: #0f766e;
+    box-shadow: 0 0 6px rgba(15,118,110,0.3);
+    background: #ffffff;
+}
+
+/* FORGOT */
 .forgot-container {
     display: flex;
-    justify-content: flex-end; /* aligns link to the right inside input width */
+    justify-content: flex-end;
 }
 
 .forgot {
     font-size: 13px;
-    color: teal;
+    color: #0f766e;
     text-decoration: none;
 }
 
+.forgot:hover {
+    text-decoration: underline;
+}
+
+/* BUTTON */
 .loginbox button {
-    width: 100%; /* button same width as inputs */
-    padding: 12px;
-    background-color: teal;
-    color: white;
+    padding: 14px;
     border: none;
-    border-radius: 8px;
+    border-radius: 10px;
+
+    background: linear-gradient(to right, #0f766e, #14b8a6);
+    color: white;
     font-size: 16px;
+    font-weight: 500;
     cursor: pointer;
+
+    transition: 0.3s;
 }
 
 .loginbox button:hover {
-    background-color: #006d6d;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(20,184,166,0.4);
+}
+
+/* SIGNUP */
+.signup {
+    text-align: center;
+    color: #555;
+    margin-top: 15px;
+}
+
+.signup a {
+    color: #0f766e;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+/* ANIMATION */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    
+}
+/* 🔥 Overlay background */
+.signup-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(6px);
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+/* 💳 Signup card */
+.signup-card {
+  width: 360px;
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+  text-align: center;
+  animation: pop 0.3s ease;
+}
+
+@keyframes pop {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* 🧾 Title */
+.signup-card h2 {
+  margin-bottom: 5px;
+  font-weight: 600;
+}
+
+.subtext {
+  font-size: 12px;
+  color: gray;
+  margin-bottom: 20px;
+}
+
+/* ✏️ Inputs */
+.signup-card input,
+.signup-card select {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  outline: none;
+}
+
+/* 🔘 Buttons */
+.primary-btn {
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  background: #4a6cf7;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.primary-btn:hover {
+  background: #3657d6;
+}
+
+.secondary-btn {
+  width: 100%;
+  padding: 10px;
+  margin-top: 8px;
+  background: #f1f1f1;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* hide fields */
+.hidden-field {
+  display: none;
+}
+/* ===== SIGNUP BUTTON BASE STYLE ===== */
+#signupBox button {
+  width: 100%;
+  padding: 11px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 10px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  letter-spacing: 0.5px;
+}
+
+/* ===== CREATE ACCOUNT BUTTON ===== */
+#signupBox button:nth-of-type(1) {
+  background: linear-gradient(135deg, #4f46e5, #6366f1);
+  color: white;
+  box-shadow: 0 6px 15px rgba(79, 70, 229, 0.3);
+}
+
+#signupBox button:nth-of-type(1):hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(79, 70, 229, 0.4);
+}
+
+#signupBox button:nth-of-type(1):active {
+  transform: scale(0.98);
+}
+
+/* ===== CLOSE BUTTON ===== */
+#signupBox button:nth-of-type(2) {
+  background: #f3f4f6;
+  color: #333;
+  border: 1px solid #ddd;
+}
+
+#signupBox button:nth-of-type(2):hover {
+  background: #e5e7eb;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+}
+
+#signupBox button:nth-of-type(2):active {
+  transform: scale(0.98);
 }

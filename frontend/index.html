@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Academic Performance Tracking System</title>
     <link href="style.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -33,12 +34,42 @@
                 <button type="submit">LOGIN</button>
             </form>
 
-            <p class="signup">
-                Don’t have an account? <a href="#">Sign Up</a>
-            </p>
+     <p class="signup">
+  Don’t have an account?
+  <a href="#" onclick="openSignup()">Sign Up</a>
+</p>
         </div>
 
     </div>
+    <!-- SIGNUP BOX (hidden initially) -->
+<div id="signupBox" class="signup-overlay">
+
+  <div class="signup-card">
+
+    <h2>Create Account</h2>
+    <p class="subtext">Sign up to access the system</p>
+
+  <input type="email" id="s_email" placeholder="Email" required>
+<input type="password" id="s_password" placeholder="Password" required>
+
+  <select id="s_role" onchange="toggleFields()">
+    <option value="student">Student</option>
+    <option value="parent">Parent</option>
+    <option value="faculty">Faculty</option>
+  </select>
+
+<!-- STUDENT -->
+  <input type="text" id="s_rollNo" placeholder="Roll No" style="display:none">
+
+  <!-- PARENT -->
+  <input type="email" id="s_studentEmail" placeholder="Student Email" style="display:none">
+
+
+
+  <button onclick="signup()">Create Account</button>
+  <button onclick="closeSignup()">Close</button>
+
+</div>
 </div>
 
 <script>
@@ -56,8 +87,8 @@ document.getElementById("loginTitle").innerText =
 document.getElementById("loginForm").addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  const email = document.querySelector('input[type="email"]').value;
-  const password = document.querySelector('input[type="password"]').value;
+ const email = document.querySelector('input[type="email"]').value.trim();
+const password = document.querySelector('input[type="password"]').value.trim();
 
   try {
     const res = await fetch("http://localhost:3000/api/auth/login", {
@@ -69,20 +100,115 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
     const data = await res.json();
 
     if (!res.ok) {
-      alert(data.error);
+      alert(data.message || "Login failed");
       return;
     }
+localStorage.setItem("token", data.token);
+localStorage.setItem("rollNo", data.rollNo);   // ⭐ ADD THIS
+localStorage.setItem("role", role);            // optional but useful
 
-    localStorage.setItem("token", data.token);
+// 🔔 check notifications before redirect
+// 🔔 check notifications only for student and parent
+if (role === "student" || role === "parent") {
+  await checkMarksNotification();
+}
 
-    if (role === "student") window.location.href = "student.html";
-    if (role === "faculty") window.location.href = "faculty.html";
-    if (role === "parent") window.location.href = "parent.html";
+if (role === "student") window.location.href = "student.html";
+if (role === "faculty") window.location.href = "faculty.html";
+if (role === "parent") window.location.href = "parent.html";
 
   } catch (err) {
     alert("Cannot connect to server");
   }
+
 });
+function openSignup(){
+  document.getElementById("signupBox").style.display = "flex";
+}
+
+function closeSignup(){
+  document.getElementById("signupBox").style.display = "none";
+}
+function toggleFields(){
+
+  const role = document.getElementById("s_role").value;
+
+  const roll = document.getElementById("s_rollNo");
+  const studentEmail = document.getElementById("s_studentEmail");
+
+  roll.style.display = role === "student" ? "block" : "none";
+  studentEmail.style.display = role === "parent" ? "block" : "none";
+
+  // clear values when switching
+  roll.value = "";
+  studentEmail.value = "";
+}
+async function signup(){
+
+  const role = document.getElementById("s_role").value;
+  const email = document.getElementById("s_email").value.trim();
+  const password = document.getElementById("s_password").value.trim();
+
+  if(!email || !password){
+    alert("Email and Password required");
+    return;
+  }
+
+  let payload = { email, password, role };
+
+  // student
+  if(role === "student"){
+    const rollNo = document.getElementById("s_rollNo").value.trim();
+    if(!rollNo){
+      alert("Roll No required");
+      return;
+    }
+    payload.rollNo = rollNo;
+  }
+
+  // parent
+  if(role === "parent"){
+    const studentEmail = document.getElementById("s_studentEmail").value.trim();
+    if(!studentEmail){
+      alert("Student Email required");
+      return;
+    }
+    payload.studentEmail = studentEmail;
+  }
+
+  const res = await fetch("http://localhost:3000/api/auth/register",{
+    method:"POST",
+    headers:{
+      "Content-Type":"application/json"
+    },
+    body: JSON.stringify(payload)
+  });
+
+  const data = await res.json();
+
+  if(!res.ok){
+    alert(data.message || "User already exists");
+    return;
+  }
+
+  alert("User created successfully 🎉");
+  closeSignup();
+}
+async function checkMarksNotification(){
+
+  const res = await fetch("http://localhost:3000/api/notifications",{
+    headers:{
+      Authorization:"Bearer "+localStorage.getItem("token")
+    }
+  });
+
+  const data = await res.json();
+
+  if(data.length > 0 && !data[0].isRead){
+    alert("📢 Marks / Attendance have been uploaded. Please check your dashboard.");
+  }
+
+}
 </script>
 
 </body>

@@ -54,7 +54,11 @@
 
         <button id="chartBtn" style="display:none" onclick="showChart()">📊 View Chart</button>
         <canvas id="marksChart" style="display:none"></canvas>
+<button id="predictBtn" style="display:none;" onclick="togglePrediction()">
+🎯 Model Score Needed
+</button>
 
+<div id="predictionBox" style="display:none;margin-top:15px;"></div>
         <p id="quote"></p>
       </div>
 
@@ -63,10 +67,7 @@
 
         <h3>🔔 Notifications</h3>
         <ul id="notifications">
-          <li>📢 Internal marks released</li>
-          <li>📊 Model exam mark released</li>
-          <li>📅 final internal mark released</li>
-          <li>Monthly Attendance released</li>
+          
         </ul>
       </div>
 

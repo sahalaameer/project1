@@ -6,7 +6,10 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: true },
   role: { type: String, required: true },
   rollNo: { type: String },
-  studentIds: { type: [mongoose.Schema.Types.ObjectId], default: [] },
+  studentIds: [{
+  type: mongoose.Schema.Types.ObjectId,
+  ref: "User"   // 🔥 THIS FIXES POPULATE
+}]
 });
 
 // Hash password before saving
